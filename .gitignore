@@ -1,0 +1,7 @@
+node_modules
+src/client/.env
+uploads
+src/client/descarga.jpg
+src/client/prueba1.pdf
+src/client/texto.txt
+
