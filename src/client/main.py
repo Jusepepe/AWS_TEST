@@ -31,15 +31,25 @@ def send_image(image_path):
     print("Image sent!")
 
 def main():
-    server_url = "http://localhost:3000"  # Change to your server URL
+    server_url = "https://3.133.132.174:3000"  # Change to your server URL
     sio.connect(server_url)
 
     try:
         while True:
-            image_path = input("Enter image path (or 'exit' to quit): ")
-            if image_path.lower() == "exit":
-                break
-            send_image(image_path)
+            mode_selection = input("Enviar imagen o datos(i/d): ")
+            match mode_selection:
+                case 'i':
+                    image_path = input("Enter image path (or 'exit' to quit): ")
+                    if image_path.lower() == "exit":
+                        break
+                    send_image(image_path)
+
+                case 'd':
+                    data = input("Ingresar Datos(or 'exit' to quit): ")
+                    if data.lower() == "exit":
+                        break
+                    sio.emit("message", data)
+
 
     except KeyboardInterrupt:
         pass
