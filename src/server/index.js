@@ -37,6 +37,6 @@ io.on('connection', async(socket)=>{
 
 
 
-server.listen(80, ()=>{
-    console.log(`Listening on http://localhost:80`);
+server.listen(3000, ()=>{
+    console.log(`Listening on http://localhost:3000`);
 })
