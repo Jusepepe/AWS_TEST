@@ -31,7 +31,7 @@ def send_image(image_path):
     print("Image sent!")
 
 def main():
-    server_url = "https://3.133.132.174:3000"  # Change to your server URL
+    server_url = "http://localhost:3000"  # Change to your server URL
     sio.connect(server_url)
 
     try:

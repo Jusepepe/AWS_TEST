@@ -1,42 +1,19 @@
-import express from"express";
-import { Server } from "socket.io";
+import express from "express";
+import { Server as WebSocketServer} from "socket.io";
 import { createServer } from "node:http";
-import fs from "fs"
+import { WebSocket } from "./websocket.js";
+import { FileSystem } from "./fileSystem.js";
+import { Server as InstServer } from "./server.js";
 
 const app = express();
 const server = createServer(app);
-const io = new Server(server, {maxHttpBufferSize: 10 * 1024 * 1024,})
+const config =  { maxHttpBufferSize: 10 * 1024 * 1024 };
+const io = new WebSocketServer(server, config);
+const database = new FileSystem();
 
+const websocket = new WebSocket(database, io);
+const serverInst = new InstServer(app, server, websocket);
 
-app.get('/', (req, res)=>{
-    res.json( { message : "Hola Mundo" } );
-})
+serverInst.communicationStart();
 
-io.on('connection', async(socket)=>{
-    console.log('a user has connected');
-
-    socket.on("image", (data) => {
-        console.log("Received image:", data.filename);
-
-        // Convert base64 back to image and save
-        const imageBuffer = Buffer.from(data.data, "base64");
-        fs.writeFileSync(`uploads/${data.filename}`, imageBuffer);
-
-        console.log("Image saved!");
-    });
-
-    socket.on('message', async (msg) => {
-        console.log(msg)
-    })
-    
-    socket.on('disconnect', ()=>{
-        console.log('a user has disconnected')
-    })
-
-})
-
-
-
-server.listen(3000, ()=>{
-    console.log(`Listening on http://localhost:3000`);
-})
+serverInst.listen(3000);
