@@ -5,6 +5,7 @@
   "description": "Prueba en AWS para servidor WebScoket usando Node.js",
   "main": "index.js",
   "scripts": {
+    "dev": "node --watch src/server/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
